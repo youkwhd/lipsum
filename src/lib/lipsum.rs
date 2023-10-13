@@ -31,12 +31,10 @@ pub fn generate(n: u32) -> String {
             word.push('?');
         }
 
-        if i == n {
-            word.push(if rng.gen_range(0..=1) != 0 { '.' } else { '?' })
-        }
-
         words.push(word);
     }
 
-    words.join(" ")
+    let mut buf = words.join(" ");
+    buf.push(if rng.gen_range(0..=1) != 0 { '.' } else { '?' });
+    buf
 }
