@@ -9,11 +9,11 @@ Options:
   -n NUMBER       n words to generate";
 
 #[derive(Debug)]
-struct AppArgs {
+struct Args {
     length: u32,
 }
 
-fn parse_args() -> Result<AppArgs, pico_args::Error> {
+fn parse_args() -> Result<Args, pico_args::Error> {
     let mut pargs = pico_args::Arguments::from_env();
 
     if pargs.contains(["-h", "--help"]) {
@@ -21,7 +21,7 @@ fn parse_args() -> Result<AppArgs, pico_args::Error> {
         std::process::exit(0);
     }
 
-    let args = AppArgs {
+    let args = Args {
         length: pargs.value_from_str("-n").or(Ok(10))?,
     };
 
@@ -29,7 +29,7 @@ fn parse_args() -> Result<AppArgs, pico_args::Error> {
 }
 
 fn main() {
-    let args = match parse_args() {
+    let args: Args = match parse_args() {
         Ok(v) => v,
         Err(e) => {
             eprintln!("ERROR: {}.", e);
