@@ -1,23 +1,40 @@
-use clap::{command, value_parser, Command, Arg, ArgAction};
-use std::env;
 use lipsum;
 
-fn parse_command_line_arguments() -> Command {
-    command!()
-        .about("lorem ipsum generator")
-        .ignore_errors(true)
-        .arg(Arg::new("__ARG_LENGTH")
-                .value_parser(value_parser!(u32))
-                .short('n')
-                .action(ArgAction::Set))
+const HELP_MESSAGE: &str = "\
+Usage: lipsum [-n]
+Lorem Ipsum generator.
+
+Options:
+  -n NUMBER       n words to generate";
+
+#[derive(Debug)]
+struct AppArgs {
+    length: u32,
+}
+
+fn parse_args() -> Result<AppArgs, pico_args::Error> {
+    let mut pargs = pico_args::Arguments::from_env();
+
+    if pargs.contains(["-h", "--help"]) {
+        println!("{}", HELP_MESSAGE);
+        std::process::exit(0);
+    }
+
+    let args = AppArgs {
+        length: pargs.value_from_str("-n").or(Ok(10))?,
+    };
+
+    Ok(args)
 }
 
 fn main() {
-    let args = parse_command_line_arguments().get_matches();
-    let n_word = match args.try_get_one::<u32>("__ARG_LENGTH") {
-        Ok(x) => *x.unwrap_or(&10),
-        Err(_) => unreachable!(),
+    let args = match parse_args() {
+        Ok(v) => v,
+        Err(e) => {
+            eprintln!("ERROR: {}.", e);
+            std::process::exit(1);
+        }
     };
 
-    println!("{}", lipsum::generate(n_word));
+    println!("{}", lipsum::generate(args.length));
 }
