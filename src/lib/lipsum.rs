@@ -3,9 +3,9 @@ use crate::std::string::Capitalize;
 use rand::{self, Rng};
 
 pub fn generate(n: u32) -> String {
-    const CHANCE_TO_ADD_QUESTION_MARK: i32 = 5;
+    const CHANCE_TO_ADD_QUESTION_MARK: i32 = 2;
     const CHANCE_TO_ADD_COMMA: i32 = 10;
-    const CHANCE_TO_ADD_DOT: i32 = 2;
+    const CHANCE_TO_ADD_DOT: i32 = 5;
 
     let mut rng = rand::thread_rng();
     let mut words: Vec<String> = Vec::new();
