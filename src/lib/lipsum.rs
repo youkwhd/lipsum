@@ -18,9 +18,8 @@ pub fn generate(n: u32) -> String {
 
         if capitalize {
             word = word.capitalize();
+            capitalize = false;
         }
-
-        capitalize = false;
 
         if i != n && rng.gen_range(1..=100) <= CHANCE_TO_ADD_COMMA {
             word.push(',');
