@@ -1,4 +1,5 @@
 use lipsum;
+use pico_args;
 
 const HELP_MESSAGE: &str = "\
 Usage: lipsum [-n]
