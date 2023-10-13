@@ -1,4 +1,13 @@
 lipsum
 ======
 
-lorem ipsum generator
+Lorem Ipsum generator
+
+Installation
+------------
+
+Assuming you already have Rust and Cargo installed:
+
+    cargo build --release
+
+The executable file should be located at target/release/lipsum
