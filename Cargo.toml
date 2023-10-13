@@ -7,10 +7,6 @@ edition = "2021"
 name = "lipsum"
 path = "src/lib/lib.rs"
 
-[[bin]]
-name = "lipsum"
-path = "src/bin/main.rs"
-
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
