@@ -1,35 +1,59 @@
+use std::ops::Range;
 use crate::data;
 use crate::std::string::Capitalize;
 use rand::{self, Rng};
 
-const CHANCE_TO_ADD_QUESTION_MARK: i32 = 3;
-const CHANCE_TO_ADD_COMMA: i32 = 8;
-const CHANCE_TO_ADD_DOT: i32 = 5;
+const CHANCE_TO_ADD_QUESTION_MARK: u32 = 3;
+const CHANCE_TO_ADD_COMMA: u32 = 8;
+const CHANCE_TO_ADD_DOT: u32 = 5;
 
-pub fn generate(n: u32, starts_with_lorem_ipsum: bool) -> String {
+pub fn generate(n: u32, n_words: Range<u32>, starts_with_lorem_ipsum: bool) -> String {
+    let mut n = n as i32;
+    let mut rng = rand::thread_rng();
     let common_len = data::latin::COMMONS.len() as u32;
-
-    if starts_with_lorem_ipsum && n <= common_len {
-        return generate_commons(n, true)
-    }
-
-    let n = if starts_with_lorem_ipsum {
-        n - common_len
-    } else {
-        n
-    };
 
     let mut buf = Vec::new();
 
     if starts_with_lorem_ipsum {
-        buf.push(generate_commons(common_len, true));
+        let n_words: u32 = rng.gen_range(n_words.clone());
+        let mut paragraph = String::new();
+
+        if n_words <= common_len {
+            paragraph.push_str(&generate_from_commons(n_words, true));
+        } else {
+            paragraph.push_str(&generate_from_commons(common_len, true));
+            paragraph.push_str(" ");
+            paragraph.push_str(&generate_from_words(n_words - common_len, true));
+        }
+
+        n -= 1;
+
+        if n > 0 {
+            paragraph.push_str("\n\n");
+        }
+
+        buf.push(paragraph);
     }
 
-    buf.push(generate_words(n, buf.last().is_some() && buf.last().unwrap().ends_with('.') || !starts_with_lorem_ipsum));
-    buf.join(" ")
+    for i in 1..=n {
+        let mut paragraph = generate_from_words(rng.gen_range(n_words.clone()), true);
+
+        if i != n {
+            paragraph.push_str("\n\n");
+        }
+
+        buf.push(paragraph);
+    }
+
+    buf.join("")
 }
 
-pub fn generate_commons(n: u32, capitalize: bool) -> String {
+
+pub fn generate_words(n: u32, starts_with_lorem_ipsum: bool) -> String {
+    generate(1, Range { start: n, end: n + 1 }, starts_with_lorem_ipsum)
+}
+
+pub fn generate_from_commons(n: u32, capitalize: bool) -> String {
     let mut rng = rand::thread_rng();
     let mut words: Vec<String> = Vec::new();
     let mut capitalize = capitalize;
@@ -63,7 +87,7 @@ pub fn generate_commons(n: u32, capitalize: bool) -> String {
     buf
 }
 
-pub fn generate_words(n: u32, capitalize: bool) -> String {
+fn generate_from_words(n: u32, capitalize: bool) -> String {
     let mut rng = rand::thread_rng();
     let mut words: Vec<String> = Vec::new();
     let mut capitalize = capitalize;
