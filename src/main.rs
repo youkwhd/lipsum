@@ -1,9 +1,11 @@
+mod args;
+use args::Args;
+
 use core::ops::Range;
 use lipsum;
-mod args;
 
 fn main() {
-    let args = match args::Args::parse() {
+    let args = match Args::parse() {
         Ok(v) => v,
         Err(e) => {
             eprintln!("ERROR: {}.", e);
