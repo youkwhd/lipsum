@@ -19,22 +19,14 @@ pub fn generate(n: u32, starts_with_lorem_ipsum: bool) -> String {
         n
     };
 
-    let mut buf = if starts_with_lorem_ipsum {
-        generate_commons(common_len, true)
-    } else {
-        String::from("")
-    };
-
-    let mut random_words = String::from("");
+    let mut buf = Vec::new();
 
     if starts_with_lorem_ipsum {
-        random_words.push(' ');
+        buf.push(generate_commons(common_len, true));
     }
 
-    random_words.push_str(&generate_words(n, buf.ends_with('.') || !starts_with_lorem_ipsum));
-
-    buf.push_str(&random_words);
-    buf 
+    buf.push(generate_words(n, buf.last().is_some() && buf.last().unwrap().ends_with('.') || !starts_with_lorem_ipsum));
+    buf.join(" ")
 }
 
 pub fn generate_commons(n: u32, capitalize: bool) -> String {
@@ -63,7 +55,11 @@ pub fn generate_commons(n: u32, capitalize: bool) -> String {
     }
 
     let mut buf = words.join(" ");
-    buf.push(if rng.gen_range(0..=1) != 0 { '.' } else { '?' });
+
+    if words.len() > 0 {
+        buf.push(if rng.gen_range(0..=1) != 0 { '.' } else { '?' });
+    }
+
     buf
 }
 
@@ -95,6 +91,10 @@ pub fn generate_words(n: u32, capitalize: bool) -> String {
     }
 
     let mut buf = words.join(" ");
-    buf.push(if rng.gen_range(0..=1) != 0 { '.' } else { '?' });
+
+    if words.len() > 0 {
+        buf.push(if rng.gen_range(0..=1) != 0 { '.' } else { '?' });
+    }
+
     buf
 }
