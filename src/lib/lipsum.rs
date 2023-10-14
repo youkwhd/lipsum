@@ -27,25 +27,15 @@ pub fn generate(n: u32, n_words: Range<u32>, starts_with_lorem_ipsum: bool) -> S
         }
 
         n -= 1;
-
-        if n > 0 {
-            paragraph.push_str("\n\n");
-        }
-
         buf.push(paragraph);
     }
 
-    for i in 1..=n {
-        let mut paragraph = generate_from_words(rng.gen_range(n_words.clone()), true);
-
-        if i != n {
-            paragraph.push_str("\n\n");
-        }
-
+    for _ in 1..=n {
+        let paragraph = generate_from_words(rng.gen_range(n_words.clone()), true);
         buf.push(paragraph);
     }
 
-    buf.join("")
+    buf.join("\n\n")
 }
 
 
