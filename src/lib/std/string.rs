@@ -1,18 +1,23 @@
 pub trait Capitalize {
-    fn capitalize(&self) -> String;
+    fn capitalize(&mut self);
+}
+
+fn to_uppercase(ch: char) -> char {
+    ch.to_uppercase().next().unwrap()
+}
+
+fn to_lowercase(ch: char) -> char {
+    ch.to_lowercase().next().unwrap()
 }
 
 impl Capitalize for String {
-    fn capitalize(&self) -> String {
+    fn capitalize(&mut self) {
         let mut buf = String::with_capacity(self.len());
         let mut chars = self.chars();
 
-        buf.push(chars.next().unwrap().to_uppercase().next().unwrap());
+        buf.push(to_uppercase(chars.next().unwrap()));
+        buf.extend(chars.map(|ch| to_lowercase(ch)));
 
-        for c in chars {
-            buf.push(c);
-        }
-
-        buf
+        *self = buf;
     }
 }

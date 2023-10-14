@@ -52,7 +52,7 @@ pub fn generate_from_commons(n: u32, capitalize: bool) -> String {
         let mut word = String::from(data::latin::COMMONS[i as usize]);
 
         if capitalize {
-            word = word.capitalize();
+            word.capitalize();
             capitalize = false;
         }
 
@@ -88,7 +88,7 @@ fn generate_from_words(n: u32, capitalize: bool) -> String {
         let mut word = String::from(data::latin::WORDS[index]);
 
         if capitalize {
-            word = word.capitalize();
+            word.capitalize();
             capitalize = false;
         }
 
