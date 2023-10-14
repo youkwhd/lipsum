@@ -10,5 +10,5 @@ fn main() {
         }
     };
 
-    println!("{}", lipsum::generate(args.length));
+    println!("{}", lipsum::generate(args.length, true));
 }
