@@ -1,18 +1,21 @@
 use pico_args;
 
 pub struct Args {
-    pub length: u32,
+    pub words_length: u32,
+    pub paragraph_length: u32,
 }
 
 impl Args {
     fn print_help_and_exit(exit_code: i32) {
         println!(
 "\
-Usage: lipsum [-n]
+Usage: lipsum [-np]
 Lorem Ipsum generator.
 
 Options:
-  -n NUMBER       n words to generate");
+  -n NUMBER       n words to generate
+  -p NUMBER       n paragraph to generate");
+
         std::process::exit(exit_code);
     }
 
@@ -24,7 +27,8 @@ Options:
         }
 
         let args = Args {
-            length: pargs.value_from_str("-n").or(Ok(10))?,
+            words_length: pargs.value_from_str("-n").or(Ok(10))?,
+            paragraph_length: pargs.value_from_str("-p").or(Ok(1))?,
         };
 
         Ok(args)

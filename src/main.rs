@@ -1,5 +1,6 @@
-mod args;
+use core::ops::Range;
 use lipsum;
+mod args;
 
 fn main() {
     let args = match args::Args::parse() {
@@ -10,5 +11,6 @@ fn main() {
         }
     };
 
-    println!("{}", lipsum::generate_words(args.length, true));
+    let lorem_ipsum = lipsum::generate(args.paragraph_length, Range { start: args.words_length, end: args.words_length + 1 }, true);
+    println!("{}", lorem_ipsum);
 }
