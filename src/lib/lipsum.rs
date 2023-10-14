@@ -10,7 +10,7 @@ pub fn generate(n: u32, starts_with_lorem_ipsum: bool) -> String {
     let common_len = data::latin::COMMONS.len() as u32;
 
     if starts_with_lorem_ipsum && n <= common_len {
-        return generate_commons(n)
+        return generate_commons(n, true)
     }
 
     let n = if starts_with_lorem_ipsum {
@@ -20,7 +20,7 @@ pub fn generate(n: u32, starts_with_lorem_ipsum: bool) -> String {
     };
 
     let mut buf = if starts_with_lorem_ipsum {
-        generate_commons(common_len)
+        generate_commons(common_len, true)
     } else {
         String::from("")
     };
@@ -37,10 +37,10 @@ pub fn generate(n: u32, starts_with_lorem_ipsum: bool) -> String {
     buf 
 }
 
-pub fn generate_commons(n: u32) -> String {
+pub fn generate_commons(n: u32, capitalize: bool) -> String {
     let mut rng = rand::thread_rng();
     let mut words: Vec<String> = Vec::new();
-    let mut capitalize = true;
+    let mut capitalize = capitalize;
 
     for i in 0..n {
         let mut word = String::from(data::latin::COMMONS[i as usize]);
