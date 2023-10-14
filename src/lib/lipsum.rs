@@ -25,8 +25,13 @@ pub fn generate(n: u32, starts_with_lorem_ipsum: bool) -> String {
         String::from("")
     };
 
-    let mut random_words = String::from(" ");
-    random_words.push_str(&generate_words(n, buf.ends_with('.')));
+    let mut random_words = String::from("");
+
+    if starts_with_lorem_ipsum {
+        random_words.push(' ');
+    }
+
+    random_words.push_str(&generate_words(n, buf.ends_with('.') || !starts_with_lorem_ipsum));
 
     buf.push_str(&random_words);
     buf 
