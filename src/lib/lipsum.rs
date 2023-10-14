@@ -21,10 +21,9 @@ pub fn generate(n: u32, n_words: Range<u32>, starts_with_lorem_ipsum: bool) -> S
         if n_words <= common_len {
             paragraph.push_str(&generate_from_commons(n_words, true));
         } else {
-            let commons = generate_from_commons(common_len, true);
-            paragraph.push_str(&commons);
+            paragraph.push_str(&generate_from_commons(common_len, true));
             paragraph.push_str(" ");
-            paragraph.push_str(&generate_from_words(n_words - common_len, commons.ends_with('.')));
+            paragraph.push_str(&generate_from_words(n_words - common_len, paragraph.ends_with(". ")));
         }
 
         n -= 1;
