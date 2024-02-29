@@ -1,4 +1,3 @@
-use std::ops::Range;
 use crate::data;
 use crate::std::string::Capitalize;
 use rand::{self, Rng};
@@ -7,15 +6,13 @@ const CHANCE_TO_ADD_QUESTION_MARK: u32 = 3;
 const CHANCE_TO_ADD_COMMA: u32 = 8;
 const CHANCE_TO_ADD_DOT: u32 = 5;
 
-pub fn generate(n: u32, n_words: Range<u32>, starts_with_lorem_ipsum: bool) -> String {
+pub fn generate(n: u32, n_words: u32, starts_with_lorem_ipsum: bool) -> String {
     let mut n = n as i32;
-    let mut rng = rand::thread_rng();
     let common_len = data::latin::COMMONS.len() as u32;
 
     let mut buf = Vec::new();
 
     if starts_with_lorem_ipsum {
-        let n_words: u32 = rng.gen_range(n_words.clone());
         let mut paragraph = String::new();
 
         if n_words <= common_len {
@@ -31,7 +28,7 @@ pub fn generate(n: u32, n_words: Range<u32>, starts_with_lorem_ipsum: bool) -> S
     }
 
     for _ in 1..=n {
-        let paragraph = generate_from_words(rng.gen_range(n_words.clone()), true);
+        let paragraph = generate_from_words(n_words, true);
         buf.push(paragraph);
     }
 
@@ -40,7 +37,7 @@ pub fn generate(n: u32, n_words: Range<u32>, starts_with_lorem_ipsum: bool) -> S
 
 
 pub fn generate_words(n: u32, starts_with_lorem_ipsum: bool) -> String {
-    generate(1, Range { start: n, end: n + 1 }, starts_with_lorem_ipsum)
+    generate(1, n, starts_with_lorem_ipsum)
 }
 
 pub fn generate_from_commons(n: u32, capitalize: bool) -> String {
