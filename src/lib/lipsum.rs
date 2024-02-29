@@ -6,8 +6,8 @@ const CHANCE_TO_ADD_QUESTION_MARK: u32 = 3;
 const CHANCE_TO_ADD_COMMA: u32 = 8;
 const CHANCE_TO_ADD_DOT: u32 = 5;
 
-pub fn generate(n: u32, n_words: u32, starts_with_lorem_ipsum: bool) -> String {
-    let mut n = n as i32;
+pub fn generate(n_paragraph: u32, n_words: u32, starts_with_lorem_ipsum: bool) -> String {
+    let mut n_paragraph = n_paragraph as i32;
     let common_len = data::latin::COMMONS.len() as u32;
 
     let mut buf = Vec::new();
@@ -23,11 +23,11 @@ pub fn generate(n: u32, n_words: u32, starts_with_lorem_ipsum: bool) -> String {
             paragraph.push_str(&generate_from_words(n_words - common_len, paragraph.ends_with(". ")));
         }
 
-        n -= 1;
+        n_paragraph -= 1;
         buf.push(paragraph);
     }
 
-    for _ in 1..=n {
+    for _ in 1..=n_paragraph {
         let paragraph = generate_from_words(n_words, true);
         buf.push(paragraph);
     }
