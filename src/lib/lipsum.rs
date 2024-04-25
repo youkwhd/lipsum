@@ -39,7 +39,7 @@ pub fn generate(nwords: u32) -> String {
         nwords -= 1;
         if nwords == 0 {
             let mut buf: String = words.join(" ");
-            buf.push(if rng.gen_range(0..=1) != 0 { '.' } else { '!' });
+            buf.push(if rng.gen_range(0..=10) == 0 { '!' } else { '.' });
             return buf;
         }
     }
@@ -66,7 +66,7 @@ pub fn generate(nwords: u32) -> String {
     }
 
     let mut buf: String = words.join(" ");
-    buf.push(if rng.gen_range(0..=1) != 0 { '.' } else { '!' });
+    buf.push(if rng.gen_range(0..=10) == 0 { '!' } else { '.' });
     buf
 }
 
