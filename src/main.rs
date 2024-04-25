@@ -12,6 +12,6 @@ fn main() {
         }
     };
 
-    let lorem_ipsum = lipsum::generate(args.paragraph_length, args.words_length, true);
+    let lorem_ipsum = lipsum::generate(args.words_length);
     println!("{}", lorem_ipsum);
 }
